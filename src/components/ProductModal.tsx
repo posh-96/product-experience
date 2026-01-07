@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Product } from "@/types/product";
 
 interface ProductModalProps {
@@ -8,6 +9,20 @@ interface ProductModalProps {
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
+    // 🔒 Lock background scroll
+    useEffect(() => {
+        if (product) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        // Cleanup (important)
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [product]);
+
     if (!product) return null;
 
     return (
